@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+// Model = [Root, Root, Root]
+//Root =>  {html_attributions, list[],status,..}
 namespace APIproject.Models
 {
     public class Root

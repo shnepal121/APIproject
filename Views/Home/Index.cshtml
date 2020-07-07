@@ -2,7 +2,33 @@
     ViewData["Title"] = "Home Page";
 }
 
+@* Defines the type of data to be used. Type of Return value from Controller. *@
+@model LinkedList<APIproject.Models.Root>
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+@foreach (APIproject.Models.Root p in Model)
+{
+
+    @foreach (ResultsItem r in p.results)
+    {
+        @(r.name+","+r.place_id+","+ r.user_ratings_total)
+        <p />
+    }
+
+
+}
+
+
+@* System.Collections.Generic.LinkedList`1[APIproject.Models.Root]',
+    LinkedList<Root> FinalResult = new LinkedList<Root>();
+
+    List = FinalResult
+    Model = FinalResults
+
+    Final Results = <Root1, Root2..........>  // Root is the parent tag of json.     
+
+*@
