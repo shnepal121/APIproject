@@ -5,23 +5,19 @@
 @* Defines the type of data to be used. Type of Return value from Controller. *@
 @model LinkedList<APIproject.Models.Root>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
-@foreach (APIproject.Models.Root p in Model)
-{
-
-    @foreach (ResultsItem r in p.results)
-    {
-        @(r.name+","+r.place_id+","+ r.user_ratings_total)
-        <p />
-    }
-
-
-}
-
+    <div class="text-center">
+        <section>
+            @using (Html.BeginForm("GetAPIData", "Home", FormMethod.Post))
+            {
+                <h1 class="display-6">Please enter the below detail</h1>
+                <br />
+                <label>Point of Interest: </label>
+                <input type="text" name="loc" value="" />
+                <br />
+                <input type="submit" name="submit" value="Search" />
+            }
+        </section>
+    </div>
 
 @* System.Collections.Generic.LinkedList`1[APIproject.Models.Root]',
     LinkedList<Root> FinalResult = new LinkedList<Root>();
