@@ -1,0 +1,38 @@
+﻿<div class="text-center">
+    <h1 class="display-4">Top Attactions</h1>
+</div>
+</p>
+<div class="text-center">
+    <table border="1">
+        <tr>
+            <th>Attaction Name</th>
+            <th>Google Location Id</th>
+            <th>Rating Count</th>
+        </tr>
+        @foreach (APIproject.Models.Root p in Model)
+        {
+
+            @foreach (ResultsItem r in p.results)
+            {
+                <tr>
+                    <td align="left">
+                        @r.name
+                    </td>
+                    <td align="left">
+                        @r.place_id
+                    </td>
+                    <td align="left">
+                        @r.user_ratings_total
+                    </td>
+                </tr>
+            }
+
+
+        }
+    </table>
+</div>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
