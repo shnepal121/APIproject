@@ -20,8 +20,8 @@ namespace APIproject.Controllers
     {
         private const string V = "next_page_token";
         HttpClient httpClient;
-        static string URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=%27Miami%27+point+of+interest&language=en&key=APIKEY";        
-        static string key = "APIKEY";
+        static string URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=%27Miami%27+point+of+interest&language=en&key=API_KEY";        
+        static string key = "API_KEY";
         
 
         public IActionResult Index()
