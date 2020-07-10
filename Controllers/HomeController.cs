@@ -20,7 +20,7 @@ namespace APIproject.Controllers
     {
         private const string V = "next_page_token";
         HttpClient httpClient;
-        static string key = "AIzaSyAdjZUL9htcWqhQRaTazHBRHV11CYBokr4";
+        static string key = "API_KEY";
         
 
         public IActionResult Index()
@@ -38,7 +38,7 @@ namespace APIproject.Controllers
 
             httpClient.DefaultRequestHeaders.Accept.Add(
             new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            string URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=%27"+loc+"%27+point+of+interest&language=en&key=AIzaSyAdjZUL9htcWqhQRaTazHBRHV11CYBokr4";
+            string URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=%27"+loc+ "%27+point+of+interest&language=en&key=API_KEY";
 
             string Google_Path = URL;
             string parksdata = "";
