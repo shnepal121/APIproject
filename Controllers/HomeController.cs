@@ -29,7 +29,15 @@ namespace APIproject.Controllers
           
         }
 
-        public IActionResult GetAPIData(string loc)
+        /*   validation second page variables  */
+        [HttpPost]
+        public ActionResult GetAPIData(String from_date, 
+            String to_date, 
+            String location1, 
+            String location2, 
+            String nature, 
+            String city, 
+            String outdoor)
         {
 
             httpClient = new HttpClient();
@@ -38,7 +46,7 @@ namespace APIproject.Controllers
 
             httpClient.DefaultRequestHeaders.Accept.Add(
             new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            string URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=%27"+loc+ "%27+point+of+interest&language=en&key=API_KEY";
+            string URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=%27"+ location2 + "%27+point+of+interest&language=en&key="+ key;
 
             string Google_Path = URL;
             string parksdata = "";
@@ -50,57 +58,82 @@ namespace APIproject.Controllers
 
 
             httpClient.BaseAddress = new Uri(Google_Path);
-            LinkedList<Root> FinalResult = new LinkedList<Root>();
+            List<Root> FinalResult = new List<Root>();
             // Root[] FinalResult = new Root[5];  // Try linked List
 
             try
             {
-                HttpResponseMessage response = httpClient.GetAsync(Google_Path).GetAwaiter().GetResult();
-                if (response.IsSuccessStatusCode)
+
+                Planvalidation Plan = new Planvalidation();
+                Plan.from_date = from_date;
+                Plan.to_date = to_date;
+                Plan.location1 = location1;
+                Plan.location2 = location2;
+                Plan.nature = nature;
+                Plan.city = city;
+                Plan.outdoor = outdoor;
+
+                /*go to DB to write variables if those are correct ----must go to trending page*/
+
+                if (!String.IsNullOrEmpty(Plan.location1) && !String.IsNullOrEmpty(Plan.location2))
                 {
-                    // Asynchronous for wait till get result, common for remote operation                    
-                    parksdata = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-                }
-
-                if (!parksdata.Equals(""))
-                {
-                    // Deserialize parksdata string into the Parks Object. 
-                    //parks = JsonConvert.DeserializeObject<Root>(parksdata);
-                    //response_parse = JsonConvert.DeserializeObject<Dictionary<string, object>>(Convert.ToString(parksdata));
-
-                    while (true)
+                    HttpResponseMessage response = httpClient.GetAsync(Google_Path).GetAwaiter().GetResult();
+                    if (response.IsSuccessStatusCode)
                     {
+                        // Asynchronous for wait till get result, common for remote operation                    
                         parksdata = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                        parks = JsonConvert.DeserializeObject<Root>(parksdata);
-                        FinalResult.AddLast(parks);
 
-                        // nextpagetoken 
-                        // https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=CpQCAgEAAFxg8o-eU7_uKn7Yqjana-HQIx1hr5BrT4zBaEko29ANsXtp9mrqN0yrKWhf-y2PUpHRLQb1GT-mtxNcXou8TwkXhi1Jbk-ReY7oulyuvKSQrw1lgJElggGlo0d6indiH1U-tDwquw4tU_UXoQ_sj8OBo8XBUuWjuuFShqmLMP-0W59Vr6CaXdLrF8M3wFR4dUUhSf5UC4QCLaOMVP92lyh0OdtF_m_9Dt7lz-Wniod9zDrHeDsz_by570K3jL1VuDKTl_U1cJ0mzz_zDHGfOUf7VU1kVIs1WnM9SGvnm8YZURLTtMLMWx8-doGUE56Af_VfKjGDYW361OOIj9GmkyCFtaoCmTMIr5kgyeUSnB-IEhDlzujVrV6O9Mt7N4DagR6RGhT3g1viYLS4kO5YindU6dm3GIof1Q&key=YOUR_API_KEY
-
-                        object has_next_page = parks.GetType().GetProperty("next_page_token");
-                        if (!has_next_page.Equals("") || has_next_page is null) /// Check how to handle Null, should we use === while comparing string null (actual NULL)?? . 
-                        {
-                            Console.WriteLine("the value is:" + has_next_page);
-                            break;
-                        }
-                        else
-                        {
-                            nextpagetoken = Convert.ToString(parks.next_page_token);
-                            string URL_Copy = URL;
-                            string URL_Final = URL_Copy + "&pagetoken=" + nextpagetoken;
-                            response = httpClient.GetAsync(URL_Final).GetAwaiter().GetResult();
-
-                        }
                     }
 
+                    if (!parksdata.Equals(""))
+                    {
+                        // Deserialize parksdata string into the Parks Object. 
+                        //parks = JsonConvert.DeserializeObject<Root>(parksdata);
+                        //response_parse = JsonConvert.DeserializeObject<Dictionary<string, object>>(Convert.ToString(parksdata));
+
+                        while (true)
+                        {
+                            parksdata = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                            parks = JsonConvert.DeserializeObject<Root>(parksdata);
+                            FinalResult.Add(parks);
+
+ 
+                            object has_next_page = parks.GetType().GetProperty("next_page_token");
+                            if (!has_next_page.Equals("") || has_next_page is null) /// Check how to handle Null, should we use === while comparing string null (actual NULL)?? . 
+                            {
+                                Console.WriteLine("the value is:" + has_next_page);
+                                break;
+                            }
+                            else
+                            {
+                                nextpagetoken = Convert.ToString(parks.next_page_token);
+                                string URL_Copy = URL;
+                                string URL_Final = URL_Copy + "&pagetoken=" + nextpagetoken;
+                                response = httpClient.GetAsync(URL_Final).GetAwaiter().GetResult();
+
+                            }
+                        }
+
+                    }
+                    ViewBag.TopAttraction = "Top Attraction in " + Plan.location2;
+                    return View(FinalResult);
                 }
+                else
+                {
+                    return View("Plan");
+                }
+
+
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-            return View(FinalResult);
+
+            return null;
+
+
         }
 
 
@@ -123,6 +156,47 @@ namespace APIproject.Controllers
         {
             
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Homepage()
+        {
+            return View();
+        }
+
+        public IActionResult Plan()
+        {
+            return View();
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+        public IActionResult Signup()
+        {
+            return View();
+        }
+
+        // capture of signon variables: user & password 
+        [HttpPost]
+        public ActionResult LoginResults(String user, String password)
+        {
+            Userlogin user1 = new Userlogin();
+            user1.user = user;
+            user1.password = password;
+
+            /*go to plan if user & pass are correct */
+
+
+            if (!String.IsNullOrEmpty(user1.user) && !String.IsNullOrEmpty(user1.password))
+            {
+                return View("Plan");
+            }
+            else
+            {
+                return View("Index");
+            }
+
         }
     }
 }
