@@ -46,23 +46,27 @@
                             {
                                 @foreach (ResultsItem r in p.results)
                                 {
-                        <tr>
-                            <td align="left">
-                                @r.name
-                            </td>
-                            <td align="left">
-                                @r.formatted_address
-                            </td>
-                            <td align="left">
-                                @r.user_ratings_total
-                            </td>
-                            <td align="left">
-                                @r.place_id
-                            </td>
-                        </tr>
+                                    <tr>
+                                        <td align="left">
+                                            @r.name
+                                        </td>
+                                        <td align="left">
+                                            @r.formatted_address
+                                        </td>
+                                        <td align="left">
+                                            @r.user_ratings_total
+                                        </td>
+                                        <td align="left">
+                                            @r.place_id
+                                        </td>
+                                        <td align="left">
+                                            @r.geometry.viewport.northeast
+                                        </td>
+                                    </tr>
                                 }
-                            }
-                        </tbody>
+                            }                            
+
+                            </tbody>
                     </table>
     </table>
 </body>

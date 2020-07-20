@@ -20,7 +20,7 @@ namespace APIproject.Controllers
     {
         private const string V = "next_page_token";
         HttpClient httpClient;
-        static string key = "API_KEY";
+        static string key = "AIzaSyAdjZUL9htcWqhQRaTazHBRHV11CYBokr4";
         
 
         public IActionResult Index()
@@ -100,7 +100,7 @@ namespace APIproject.Controllers
 
  
                             object has_next_page = parks.GetType().GetProperty("next_page_token");
-                            if (!has_next_page.Equals("") || has_next_page is null) /// Check how to handle Null, should we use === while comparing string null (actual NULL)?? . 
+                            if (!has_next_page.Equals("") || has_next_page is null) /// Check how to handle Null, should we use is null while comparing string null (actual NULL)?? . 
                             {
                                 Console.WriteLine("the value is:" + has_next_page);
                                 break;

@@ -2,12 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIproject.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer; 
+
+
 
 namespace APIproject
 {
@@ -24,12 +29,24 @@ namespace APIproject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            // Setup EF connection
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["Data:Travel-Plan:ConnectionString"]));        
+           
+
+            // added from MVC template
+            services.AddMvc();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            //This ensures that the database and tables are created as per the Models.
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                context.Database.EnsureCreated();
+            }
+
+                        if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
