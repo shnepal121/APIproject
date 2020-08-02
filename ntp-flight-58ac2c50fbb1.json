@@ -1,9 +1,9 @@
 {
   "type": "service_account",
   "project_id": "ntp-flight",
-  "private_key_id": "USE KEY HERE - Let me kow if any issue encountered Can not Share the file",
+  "private_key_id": "USE KEY HERE - ",
   "private_key": "-----BEGIN PRIVATE KEY-----"
-  "client_email": "snepal@ntp-flight.iam.gserviceaccount.com",
+  "client_email": "",
   "client_id": "USE CLIENT ID",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
   "token_uri": "https://oauth2.googleapis.com/token",
