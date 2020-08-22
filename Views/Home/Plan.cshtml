@@ -6,7 +6,7 @@
 
 
 @model APIproject.Models.Planvalidation
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML PUBLIC>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -22,137 +22,87 @@
             var Fecha2 = new Date(parseInt(date2[0]), parseInt(date2[1]) - 1, parseInt(date2[2]));
 
             if (Fecha1 > Fecha2) {
-                alert("The return date must be higher than start date");
+                alert("Please enter valid start and end dates.");
                 return false;
             }
 
         }
     </script>
-    <style type="text/css">
-        html,
-        body {
-            height: 100%;
-        }
 
-        body {
-            background-image: url('/img/background.jpg');
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-    </style>
 </head>
 
+<h1 class="text-light">Trending Destination</h1>
+
 <body text="#F3F3F3" link="#2CA824" vlink="#000000" alink="#0E28E1" leftmargin="10" topmargin="30" marginwidth="10" marginheight="30" width="600" height="400">
-    <table width="100%" border="0">
-        <tbody>
-            <tr>
-                <td>
-                    <table width="100%" height="15%" border="0">
-                        <tbody>
-                            <tr align="center">
-                                <td bgcolor="#0E18CF">Trending Destination</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td height="578">
-                    <p>&nbsp;</p>
-                    <!-- <form name="form1" id="form1" method="get" action="~" onsubmit="return validate_dates()">  --->
-                    <form asp-action="GetAPIData" asp-controller="Home" method="post" onsubmit="return validate_dates()">
-                        <table width="550" height="226" border="0">
-                            <tbody>
-                                <tr>
-                                    <td colspan="3"><strong>Your Travel Itinerary</strong></td>
-                                    <td width="26">&nbsp;</td>
-                                    <td width="26">&nbsp;</td>
-                                    <td width="30">&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td width="87">&nbsp;</td>
-                                    <td width="87">&nbsp;</td>
-                                    <td width="268">&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td><strong>From:</strong></td>
-                                    <td><input type="date" name="from_date" id="from_date"></td>
-                                    <td><strong>To:</strong> </td>
-                                    <td>
-                                        <input type="date" name="to_date" id="to_date">
-                                    </td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td><strong>Location1 </strong></td>
-                                    <td colspan="2"><input type="text" name="location1" id="location1"></td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td><strong>Location2 </strong></td>
-                                    <td><input type="text" name="location2" id="location2"></td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td><strong>Interests</strong></td>
-                                    <td colspan="2">
-                                        <input type="checkbox" name="nature" id="nature">
-                                        <label for="checkbox">
-                                            <strong>Nature </strong>
-                                            <input type="checkbox" name="city" id="city">
-                                            <strong>City </strong>
-                                            <input type="checkbox" name="outdoor" id="outdoor">
-                                            <strong> Outdoor </strong>
-                                        </label>
-                                    </td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
-                                    <td><input type="reset" name="reset" id="reset" value="Reset"></td>
-                                    <td>&nbsp;</td>
-                                    <td><input type="submit" name="submit" id="submit" value="Submit"> </td>
-                                    <td>&nbsp;</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </form>
-                    <!---           validation of form and variables-->
+    <div class="jumbotron bg-transparent">
+        <form asp-action="GetAPIData" asp-controller="Home" method="post" onsubmit="return validate_dates()">
+            
+            <div class="form-group row">
+                <label for="from_date" class="col-sm-2 col-form-label text-light">From</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" name="from_date" id="from_date">
+                </div>
+            </div>
 
+            <div class="form-group row">
+                <label for="to_date" class="col-sm-2 col-form-label text-light">To</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" name="to_date" id="to_date">
+                </div>
+            </div>
 
+            <div class="form-group row">
+                <label for="location1" class="col-sm-2 col-form-label text-light">Starting City</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="location1" id="location1" placeholder="Enter starting location">
+                </div>
+            </div>
 
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                    <p>&nbsp;</p>
-                </td>
-            </tr>
-            <tr>
-                <!--     <td height="38" bgcolor="#8F8F8F">Footer</td>   -->
-            </tr>
-        </tbody>
-    </table>
+            <div class="form-group row">
+                <label for="location2" class="col-sm-2 col-form-label text-light">Destination City</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="location2" id="location2" placeholder="Enter end location">
+                </div>
+            </div>
+
+            <fieldset class="form-group">
+                <div class="row">
+                    <legend class="col-form-label col-sm-2 pt-0 text-light">Interests</legend>
+                    <div class="col-sm-10">
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input text-light" name="nature" id="nature">
+                            <label class="form-check-label text-light" for="nature">
+                                Nature
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input text-light" name="city" id="city">
+                            <label class="form-check-label text-light" for="city">
+                                City
+                            </label>
+                        </div>
+
+                        <div class="form-check disabled">
+                            <input type="checkbox" class="form-check-input text-light" name="outdoor" id="outdoor">
+                            <label class="form-check-label text-light" for="outdoor">
+                                Outdoors
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <input type="reset" name="reset" id="reset" value="Reset">
+                    <input type="submit" name="submit" id="submit" value="Submit">
+                </div>
+            </div>
+
+        </form>
+    </div>
 </body>
 </html>
